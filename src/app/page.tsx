@@ -101,6 +101,13 @@ export default function Home() {
             setIsQuizActive={() => setSelectedCategory(null)} // This resets the quiz state when going back
           />
         )}
+        <p className="text-fuchsia-600 mt-24">
+          Made by Neil just for fun. <br /> You can find the source code at
+          <a href="https://github.com/nf1973/quizbot/tree/main/src/app">
+            {" "}
+            <span className="underline">Github</span>
+          </a>
+        </p>
       </main>
     </div>
   )
