@@ -12,7 +12,7 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
 }) => {
   return (
     <>
-      <p>Pick a category:</p>
+      <p className="text-white">Pick a category:</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {categories.map((category, index) => (
           <button

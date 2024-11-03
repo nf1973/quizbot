@@ -56,8 +56,8 @@ export default function Home() {
     <div className="bg-slate-800 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start max-w-full">
         <div>
-          <h1 className="text-4xl font-bold">Quizbot</h1>
-          <p className="text-small italic">
+          <h1 className="text-4xl font-bold text-white">Quizbot</h1>
+          <p className="text-small italic text-gray-400">
             Questions and Answers are AI generated and may be incorrect. The UI
             is a work in progress.
           </p>

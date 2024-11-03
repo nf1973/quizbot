@@ -57,7 +57,7 @@ const Quiz: React.FC<QuizProps> = ({
     return (
       <div className="flex flex-col items-left gap-6">
         <div>
-          <p className="text-xl">
+          <p className="text-xl text-white">
             You scored {score} out of {questions.length}{" "}
             {getScoreEmoji(score, questions.length)}
           </p>
@@ -105,7 +105,9 @@ const Quiz: React.FC<QuizProps> = ({
         <p className="text-small font-bold text-fuchsia-600">
           Question {currentQuestionIndex + 1} of {questions.length}:{" "}
         </p>
-        <p className="text-2xl font-normal">{currentQuestion.question}</p>
+        <p className="text-2xl font-normal text-white">
+          {currentQuestion.question}
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {shuffledAnswers.map((answer, index) => (
