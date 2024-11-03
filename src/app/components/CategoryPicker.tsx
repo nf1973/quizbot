@@ -5,6 +5,7 @@ interface CategoryPickerProps {
 }
 
 const CategoryPicker: React.FC<CategoryPickerProps> = ({ categories }) => {
+  console.log("Categories received:", categories)
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       {categories.map((category, index: number) => (
