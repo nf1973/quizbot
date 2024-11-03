@@ -1,3 +1,4 @@
+// CategoryPicker.tsx
 import React from "react"
 
 interface CategoryPickerProps {
