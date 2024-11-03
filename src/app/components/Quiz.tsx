@@ -31,9 +31,9 @@ const Quiz: React.FC<QuizProps> = ({
   userAnswers,
   score,
   showSummary,
-  setShowSummary,
+  //setShowSummary,
   handleAnswer,
-  setIsQuizActive,
+  //setIsQuizActive,
 }) => {
   // Check if there are questions available
   if (questions.length === 0) {
