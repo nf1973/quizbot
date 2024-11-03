@@ -4,11 +4,15 @@ import React, { useState, useEffect } from "react"
 import Spinner from "./components/Spinner"
 import { getQuizCategories, getQuestions } from "./actions"
 import CategoryPicker from "./components/CategoryPicker"
+import Quiz from "./components/Quiz"
+import { Question } from "./types/types"
 
 export default function Home() {
   const [categories, setCategories] = useState<string[] | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [isQuizActive, setIsQuizActive] = useState(false)
 
   // Fetch categories when the component mounts
   useEffect(() => {
@@ -26,7 +30,8 @@ export default function Home() {
     const fetchQuestions = async () => {
       if (selectedCategory) {
         const response = await getQuestions(selectedCategory)
-        console.log("Questions for selected category:", response)
+        setQuestions(response.questions)
+        setIsQuizActive(true)
       }
     }
     fetchQuestions()
@@ -37,25 +42,24 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-4xl font-bold">Quizbot</h1>
         <p className="text-xl">
-          Questions and Answers are AI generated and may be incorrect.
+          Questions and Answers are fully AI generated and may be completely
+          incorrect.
         </p>
 
         {loading ? (
           <Spinner message="Selecting categories..." />
         ) : (
-          categories && (
-            <>
-              <CategoryPicker
-                categories={categories}
-                onSelectCategory={setSelectedCategory}
-              />
-              {selectedCategory && (
-                <p className="mt-4 text-lg font-semibold text-fuchsia-600">
-                  Selected Category: {selectedCategory}
-                </p>
-              )}
-            </>
+          categories &&
+          !isQuizActive && (
+            <CategoryPicker
+              categories={categories}
+              onSelectCategory={setSelectedCategory}
+            />
           )
+        )}
+
+        {isQuizActive && questions.length > 0 && (
+          <Quiz questions={questions} setIsQuizActive={setIsQuizActive} />
         )}
       </main>
     </div>

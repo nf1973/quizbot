@@ -58,7 +58,7 @@ export const getQuizCategories = async () => {
 
 export const getQuestions = async (category: string) => {
   const systemPromptText = `
-You are a professional quizmaster. You write questions and answers for a family entertainment quiz show. Each question has one correct and four incorrect answers.
+You are a professional quizmaster. You write questions and answers for a family entertainment quiz show. Each question has one correct and three incorrect answers.
 Prepare 10 questions and answers and create a JSON response using the following template. Your response must consist only of perfectly valid JSON with no additional comments or notes.
 Do not include formatting information. Be careful to make sure you don't forget to include any of the brackets.
 Specifically check that the JSON is valid. Specifically check that the incorrect answers array has all its brackets.
@@ -75,8 +75,19 @@ Example output:
             "question": "Who wrote 'To Kill a Mockingbird'?",
             "correct_answer": "Harper Lee",
             "incorrect_answers": ["Mark Twain", "Ernest Hemingway", "F. Scott Fitzgerald"]
-          }]
-}
+          },
+          {
+            "question": "Which American aircraft carrier was sunk at Pearl Harbor?",
+            "correct_answer": "USS Arizona",
+            "incorrect_answers": ["USS Enterprise", "USS Lexington", "USS Yorktown"]
+          },
+          {
+            "question": "Who was the commander of the RAF during the Battle of Britain?",
+            "correct_answer": "Hugh Dowding",
+            "incorrect_answers": [Keith Park", "Arthur Harris", "Trafford Leigh-Mallory"]
+          }
+        ]
+      }
 `
 
   const llm = new ChatGoogleGenerativeAI({
