@@ -1,4 +1,5 @@
 // Home.tsx
+
 "use client"
 import React, { useState, useEffect } from "react"
 import Spinner from "./components/Spinner"
@@ -12,7 +13,10 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [questions, setQuestions] = useState<Question[]>([])
-  const [isQuizActive, setIsQuizActive] = useState(false)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [userAnswers, setUserAnswers] = useState<string[]>([])
+  const [score, setScore] = useState(0)
+  const [showSummary, setShowSummary] = useState(false)
 
   // Fetch categories when the component mounts
   useEffect(() => {
@@ -25,41 +29,77 @@ export default function Home() {
     fetchCategories()
   }, [])
 
-  // Fetch questions when a category is selected
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      if (selectedCategory) {
-        const response = await getQuestions(selectedCategory)
-        setQuestions(response.questions)
-        setIsQuizActive(true)
-      }
+  // Handle category selection
+  const handleCategorySelect = async (category: string) => {
+    setSelectedCategory(category)
+    setLoading(true)
+
+    const { questions } = await getQuestions(category)
+    setQuestions(questions) // Store the questions
+    setLoading(false)
+  }
+
+  const handleAnswer = (answer: string) => {
+    setUserAnswers((prev) => [...prev, answer])
+    if (answer === questions[currentQuestionIndex]?.correct_answer) {
+      setScore((prev) => prev + 1)
     }
-    fetchQuestions()
-  }, [selectedCategory]) // Runs every time selectedCategory changes
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1)
+    } else {
+      setShowSummary(true)
+    }
+  }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-4xl font-bold">Quizbot</h1>
-        <p className="text-xl">
-          Questions and Answers are fully AI generated and may be completely
-          incorrect.
-        </p>
+      <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start max-w-full">
+        <div>
+          <h1 className="text-4xl font-bold">Quizbot</h1>
+          <p className="text-small italic">
+            Questions and Answers are AI generated and may be incorrect. The UI
+            is a work in progress.
+          </p>
+        </div>
 
         {loading ? (
-          <Spinner message="Selecting categories..." />
+          <Spinner
+            message={
+              selectedCategory
+                ? "Generating Questions..."
+                : "Generating categories..."
+            }
+          />
         ) : (
           categories &&
-          !isQuizActive && (
-            <CategoryPicker
-              categories={categories}
-              onSelectCategory={setSelectedCategory}
-            />
+          !selectedCategory && (
+            <>
+              <CategoryPicker
+                categories={categories}
+                onSelectCategory={handleCategorySelect}
+              />
+              {selectedCategory && (
+                <p className="mt-4 text-lg font-semibold text-fuchsia-600">
+                  Selected Category: {selectedCategory}
+                </p>
+              )}
+            </>
           )
         )}
 
-        {isQuizActive && questions.length > 0 && (
-          <Quiz questions={questions} setIsQuizActive={setIsQuizActive} />
+        {/* Include the Quiz component here */}
+        {selectedCategory && (
+          <Quiz
+            questions={questions}
+            currentQuestionIndex={currentQuestionIndex}
+            userAnswers={userAnswers}
+            score={score}
+            showSummary={showSummary}
+            setShowSummary={setShowSummary}
+            handleAnswer={handleAnswer}
+            setIsQuizActive={() => setSelectedCategory(null)} // This resets the quiz state when going back
+          />
         )}
       </main>
     </div>
