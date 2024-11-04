@@ -55,70 +55,76 @@ const Quiz: React.FC<QuizProps> = ({
 
   if (showSummary) {
     return (
-      <div className="flex flex-col items-left gap-6">
-        <div>
-          <p className="text-xl text-white">
-            You scored {score} out of {questions.length}{" "}
-            {getScoreEmoji(score, questions.length)}
-          </p>
+      <div className="flex flex-col items-left gap-8 min-w-full">
+        {/* Score Summary */}
+        <div className="mt-4 flex flex-col items-center rounded-lg shadow-md text-center">
+          <div className="flex items-center space-x-2">
+            <p className="text-2xl font-bold text-white">
+              You scored {score} out of {questions.length}
+            </p>
+            <p className="text-4xl">{getScoreEmoji(score, questions.length)}</p>
+          </div>
         </div>
-        <ul>
+
+        {/* Questions Summary */}
+        <ul className="flex flex-col gap-6">
           {questions.map((q, index) => (
-            <li
-              key={index}
-              className={`mb-8 ${
-                userAnswers[index] === q.correct_answer
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              <strong>
-                Question {index + 1}: {q.question}
-              </strong>
-              <br />
-              Your Answer: {userAnswers[index]} <br />
-              {userAnswers[index] !== q.correct_answer && (
-                <>
-                  Correct Answer: {q.correct_answer} <br />
-                </>
-              )}
+            <li key={index} className="bg-gray-900 p-4 rounded-lg shadow-md">
+              <div className="flex items-start gap-4">
+                {/* Icon */}
+                {userAnswers[index] === q.correct_answer ? (
+                  <span className="text-green-500">✔</span>
+                ) : (
+                  <span className="text-red-500">❌</span>
+                )}
+                {/* Question and Answer Details */}
+                <div>
+                  <p className="font-semibold text-lg text-cyan-400">
+                    Question {index + 1}: {q.question}
+                  </p>
+                  <p
+                    className={`mt-2 ${
+                      userAnswers[index] === q.correct_answer
+                        ? "text-green-300"
+                        : "text-red-400"
+                    }`}
+                  >
+                    Your Answer: {userAnswers[index]}
+                  </p>
+                  {userAnswers[index] !== q.correct_answer && (
+                    <p className="text-gray-300">
+                      Correct Answer:{" "}
+                      <span className="text-green-300">{q.correct_answer}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
             </li>
           ))}
         </ul>
-
-        {/* <button
-          onClick={() => {
-            setIsQuizActive(false)
-            setShowSummary(false) // Reset summary state when going back
-          }}
-          className="mt-4 bg-blue-600 text-white p-2 rounded"
-        >
-          Back to Categories
-        </button> */}
+        <p>Refresh the page to play again</p>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col items-left min-w-full">
+    <div className=" py-0 md:py-8 flex flex-col items-left min-w-full">
       <div>
-        <p className="text-small font-bold text-fuchsia-600">
-          Question {currentQuestionIndex + 1} of {questions.length}:{" "}
+        <p className="text-xl font-bold text-cyan-400">
+          Question {currentQuestionIndex + 1} of {questions.length}
         </p>
-        <p className="text-2xl font-normal text-white">
+        <p className="text-xl md:text-xl my-4 md:my-8 font-normal text-white">
           {currentQuestion.question}
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
         {shuffledAnswers.map((answer, index) => (
           <button
             key={index}
             onClick={() => handleAnswer(answer)}
-            className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg hover:bg-fuchsia-100 transition-shadow duration-200"
+            className="bg-cyan-500 shadow-md rounded-xl p-4 hover:shadow-lg text-white hover:text-white text-center text-lg  font-bold hover:bg-orange-400 transition-shadow duration-200"
           >
-            <p className="text-xl text-fuchsia-600 text-center font-small">
-              {answer}
-            </p>
+            <p>{answer}</p>
           </button>
         ))}
       </div>

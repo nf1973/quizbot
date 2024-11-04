@@ -10,19 +10,29 @@ const CategoryPicker: React.FC<CategoryPickerProps> = ({
   categories,
   onSelectCategory,
 }) => {
+  // Handler for custom category input
+  const handleCustomCategory = () => {
+    const customCategory = prompt(
+      "Welcome to Neural Override Mode. Please enter a category name:"
+    )
+    if (customCategory) {
+      onSelectCategory(customCategory)
+    }
+  }
+
   return (
     <>
-      <p className="text-white">Pick a category:</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+      <p className="text-cyan-300 font-bold text-2xl mb-4 mt-0 md:mt-8 cursor-text">
+        <span onClick={handleCustomCategory}>Pick</span> a category...
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 w-full">
         {categories.map((category, index) => (
           <button
             key={index}
             onClick={() => onSelectCategory(category)}
-            className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg hover:bg-fuchsia-100 transition-shadow duration-200"
+            className="bg-cyan-500 shadow-md rounded-xl p-4 hover:shadow-lg text-white hover:text-white text-center text-lg font-bold hover:bg-orange-400 transition-shadow duration-200"
           >
-            <h2 className="text-xl text-fuchsia-600 text-center font-semibold">
-              {category}
-            </h2>
+            <p>{category}</p>
           </button>
         ))}
       </div>

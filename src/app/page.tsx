@@ -7,6 +7,8 @@ import { getQuizCategories, getQuestions } from "./actions"
 import CategoryPicker from "./components/CategoryPicker"
 import Quiz from "./components/Quiz"
 import { Question } from "./types/types"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
 
 export default function Home() {
   const [categories, setCategories] = useState<string[] | null>(null)
@@ -53,21 +55,15 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-slate-800 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-4 row-start-2 items-center sm:items-start max-w-full">
-        <div>
-          <h1 className="text-4xl font-bold text-white">Quizbot</h1>
-          <p className="text-small italic text-gray-400">
-            Questions and Answers are AI generated and may be incorrect. The UI
-            is a work in progress.
-          </p>
-        </div>
+    <div className="bg-slate-800 flex items-center justify-center min-h-screen p-8 gap-4 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-4 justify-center items-center w-full max-w-[1000px]">
+        <Header />
 
         {loading ? (
           <Spinner
             message={
               selectedCategory
-                ? "Generating Questions..."
+                ? "Generating questions..."
                 : "Generating categories..."
             }
           />
@@ -101,13 +97,7 @@ export default function Home() {
             setIsQuizActive={() => setSelectedCategory(null)} // This resets the quiz state when going back
           />
         )}
-        <p className="text-fuchsia-400 mt-24">
-          Made by Neil just for fun. <br /> You can find the source code at
-          <a href="https://github.com/nf1973/quizbot/tree/main/src/app">
-            {" "}
-            <span className="underline">Github</span>
-          </a>
-        </p>
+        <Footer />
       </main>
     </div>
   )
