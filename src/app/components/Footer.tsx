@@ -6,7 +6,7 @@ const Footer = () => {
       <p className="text-cyan-400 mt-8 md:mt-24 text-center text-sm">
         Created by Neil for a bit of fun.{" "}
       </p>
-      <p className="text-xs">
+      <p className="text-xs text-white">
         Find the source code on{" "}
         <a
           href="https://github.com/nf1973/quizbot/tree/main/src/app"
